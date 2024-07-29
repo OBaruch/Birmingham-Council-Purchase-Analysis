@@ -1,0 +1,54 @@
+# Ignore all files
+*
+
+# Allow specific files
+!.gitignore
+!*.txt
+!README.md
+!LICENSE
+!*.py
+!*.ipynb
+!*.pickle
+
+# Ensure the Data directory and its contents are not ignored
+!Data/
+!Data/*.txt
+!Data/*.csv
+!Data/*.pkl
+!Data/*.py
+!Data/*.pickle
+
+# Ignore common system files
+.DS_Store
+Thumbs.db
+
+# Ignore common Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environment
+venv/
+.env
+.venv/
+ENV/
+env/
+venv.bak/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore logs and output files
+*.log
+*.out
+*.err
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Ignore any local configuration files
+*.local

@@ -1,17 +1,18 @@
-import os
 import requests
 from bs4 import BeautifulSoup
+import os
 import pandas as pd
 
-def scrape_resource_ids(url):
+def scrape_resource_ids(url, output_folder):
     """
-    Scrape all resource IDs from the given webpage URL.
-    
+    Scrape all resource IDs from the webpage and save them to a file.
+
     Args:
-    url (str): The URL of the webpage to scrape.
+    url (str): URL of the webpage to scrape.
+    output_folder (str): Folder to save the resource IDs file.
     
     Returns:
-    list: A list of unique resource IDs found on the webpage.
+    list: List of resource IDs.
     """
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -28,32 +29,25 @@ def scrape_resource_ids(url):
     # Remove duplicate resource IDs
     resource_ids = list(set(resource_ids))
     
-    return resource_ids
-
-def save_resource_ids(resource_ids, output_folder):
-    """
-    Save the resource IDs to a file.
-    
-    Args:
-    resource_ids (list): List of resource IDs to save.
-    output_folder (str): Folder to save the resource IDs file.
-    """
+    # Save resource IDs to a file
     os.makedirs(output_folder, exist_ok=True)
     resource_ids_file = os.path.join(output_folder, 'resource_ids.txt')
     with open(resource_ids_file, 'w') as f:
         for resource_id in resource_ids:
             f.write(f"{resource_id}\n")
+    
+    return resource_ids
 
 def fetch_data(resource_id):
     """
     Fetch data from a resource link and return as a DataFrame.
-    
+
     Args:
-    resource_id (str): Resource ID to fetch data for.
-    
+    resource_id (str): The resource ID to fetch data from.
+
     Returns:
-    DataFrame: Data fetched from the resource.
-    str: API URL used for fetching the data.
+    DataFrame: DataFrame containing the fetched data.
+    str: The API URL used for fetching data.
     """
     api_url = f'https://birmingham-city-observatory.datopian.com/api/3/action/datastore_search?resource_id={resource_id}&limit=999999999'
     response = requests.get(api_url)
@@ -73,42 +67,35 @@ def fetch_data(resource_id):
 def fetch_and_save_data(resource_ids, output_folder):
     """
     Fetch data for all resource IDs and save to CSV and pickle files.
-    
+
     Args:
-    resource_ids (list): List of resource IDs to fetch data for.
+    resource_ids (list): List of resource IDs to fetch data from.
     output_folder (str): Folder to save the data files.
     """
-    all_data = pd.DataFrame()
     os.makedirs(output_folder, exist_ok=True)
+    
+    all_data = pd.DataFrame()
 
-    # Fetch and concatenate data for each resource ID
     for resource_id in resource_ids:
         df, api_url = fetch_data(resource_id)
         if not df.empty:
             all_data = pd.concat([all_data, df], ignore_index=True)
             print(f"Data fetched successfully from {api_url}")
 
-    # Check for duplicates ignoring the '_id' column
     duplicates = all_data[all_data.duplicated(keep=False)]
 
-    # Save duplicates to a file
     duplicates_csv = os.path.join(output_folder, 'duplicates.csv')
     duplicates.to_csv(duplicates_csv, index=False)
 
-    # Remove duplicates from the DataFrame
     cleaned_data = all_data.drop_duplicates()
 
-    # Save the cleaned data to a CSV file
     output_csv = os.path.join(output_folder, 'data.csv')
-    cleaned_data.to_csv(output_csv, index=False)
-
-    # Save the cleaned data to a pickle file
     output_pickle = os.path.join(output_folder, 'data.pkl')
+    
+    cleaned_data.to_csv(output_csv, index=False)
     cleaned_data.to_pickle(output_pickle)
 
-    # Print confirmation
     print(f"Total records fetched: {all_data.shape[0]}")
     print(f"Total duplicates found: {duplicates.shape[0]}")
     print(f"Total records after removing duplicates: {cleaned_data.shape[0]}")
     print(f"Data saved to '{output_csv}' and '{output_pickle}'. Duplicates saved to '{duplicates_csv}'.")
-
