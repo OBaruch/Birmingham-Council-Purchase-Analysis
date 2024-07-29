@@ -1,0 +1,27 @@
+# Data Compliance for Birmingham-Council-Purchase-Analysis
+
+##Licence
+The dataset is published under the terms of the Open Government Licence for public sector information, version 2. This licence encourages the use and re-use of the information freely and flexibly, with only a few conditions. Proper attribution to Birmingham City Council is required when using the data. The data should be used responsibly, ensuring privacy and avoiding misuse.
+
+## Source
+The dataset of purchase card transactions is provided by Birmingham City Council, accessible at: https://www.cityobservatory.birmingham.gov.uk/@birmingham-city-council/purchase-card-transactions
+
+## Terms of Use
+- The data is published under the Code of Recommended Practice for Local Authorities on Data Transparency.
+- Attribution to Birmingham City Council is required when using the data.
+- The data should be used responsibly, ensuring privacy and avoiding misuse.
+
+## Compliance Steps
+1. Always provide proper attribution to Birmingham City Council.
+2. Use the data for legitimate analytical purposes.
+3. Ensure data security and privacy when handling the dataset.
+
+## Terms & Conditions
+Text content and data files on this website are published under the terms of the Open Government Licence for public sector information, version 2. You are encouraged to use and re-use the information that is available under this licence freely and flexibly, with only a few conditions. Please read the Open Government Licence for the full details. However where data is derived from a licence and therefore its reuse is limited, this will be explicitly stated alongside the dataset.
+
+## Disclaimer
+Whilst every care has been taken in the compilation of the information on cityobservatory.birmingham.gov.uk, Birmingham City Council will not be held responsible for any loss, damage or inconvenience caused as a result of inaccuracy within these pages. The Council does not endorse any external linked sites and is not responsible for their content.
+
+## Data Quality
+Birmingham City Council is committed to the highest standards of quality of information. If you think this site contains any errors or out-of-date information, please contact us with details of what needs correcting.
+

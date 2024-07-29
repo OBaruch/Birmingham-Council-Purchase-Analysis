@@ -6,23 +6,47 @@ This repository contains a historical dataset of purchase card transactions for 
 ## Analytical Tasks
 With this dataset, you can perform the following tasks:
 
-1. **Clustering**
-   - Discovering profiles and identifying patterns in the transactions.
-   - Detecting unusual transactions (anomaly detection).
+### Clustering
+- Discovering profiles and identifying patterns in the transactions.
+- Detecting unusual transactions (anomaly detection).
 
-2. **Forecasting**
-   - Predicting future transactional behaviors.
-   - Forecasting expenditures and determining the next likely purchases.
+### Forecasting
+- Predicting future transactional behaviors.
+- Forecasting expenditures and determining the next likely purchases.
 
-3. **Creativity**
-   - Formulating and addressing unique problems related to the dataset.
-   - Custom analyses based on your defined time window and objectives.
+
 
 ## Getting Started
-To get started with the dataset and perform your analysis:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/Birmingham-Council-Purchase-Analysis.git
+
+### Prerequisites
+Ensure you have the following installed:
+- [Anaconda](https://www.anaconda.com/products/distribution)
+- Python 3.9
+
+### Setting Up the Environment
+
+1. **Create a Conda Environment**:
+    ```bash
+    conda create -n pct python=3.9
+    conda activate pct
+    ```
+
+2. **Install Jupyter and Dependencies**:
+    ```bash
+    conda install jupyter
+    conda install ipykernel
+    pip install pandas
+    ```
+
+3. **Create a Jupyter Kernel**:
+    ```bash
+    python -m ipykernel install --user --name pct --display-name "Purchasing Card Transactions"
+    ```
+
+4. **Installing the Requirements**:
+Install the required packages listed in `requirements.txt`:
+
+
 
 ## Contributions
 Contributions are welcome! Please submit a pull request or open an issue to discuss your ideas or improvements.
@@ -31,7 +55,5 @@ Contributions are welcome! Please submit a pull request or open an issue to disc
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-Data provided by Birmingham City Council.
-https://www.cityobservatory.birmingham.gov.uk/@birmingham-city-council/purchase-card-transactions
-
-
+Data provided by Birmingham City Council under the Open Government Licence v2.  
+[Dataset Source](https://www.cityobservatory.birmingham.gov.uk/@birmingham-city-council/purchase-card-transactions)
