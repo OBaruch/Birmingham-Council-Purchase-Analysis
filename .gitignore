@@ -8,15 +8,11 @@
 !LICENSE
 !*.py
 !*.ipynb
-!*.pickle
+
 
 # Ensure the Data directory and its contents are not ignored
-!Data/
 !Data/*.txt
-!Data/*.csv
-!Data/*.pkl
 !Data/*.py
-!Data/*.pickle
 
 # Ignore common system files
 .DS_Store
@@ -52,3 +48,9 @@ venv.bak/
 
 # Ignore any local configuration files
 *.local
+
+# Ignore big files
+Data/*.csv
+Data/*.pkl
+
+
