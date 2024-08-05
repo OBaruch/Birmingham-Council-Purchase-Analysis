@@ -1,5 +1,7 @@
-pandas
-numpy
-scikit-learn
-matplotlib
-jupyter
+autoviz==0.1.905
+beautifulsoup4==4.12.3
+matplotlib==3.9.0
+pandas==2.2.2
+Requests==2.32.3
+scikit_learn==1.5.1
+seaborn==0.13.2
