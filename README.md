@@ -46,6 +46,13 @@ Ensure you have the following installed:
 4. **Installing the Requirements**:
 Install the required packages listed in `requirements.txt`:
 
+### Execution
+
+1. **Run the main.py file:**
+ISn the repo terminal folder after installing prerequisites
+    ```bash
+    main.py
+    ```
 
 
 ## Contributions

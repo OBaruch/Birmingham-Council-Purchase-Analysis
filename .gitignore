@@ -1,5 +1,4 @@
-# Ignore all files
-*
+
 
 # Allow specific files
 !.gitignore
@@ -14,6 +13,7 @@
 !Data/*.txt
 !Data/*.py
 !Data/*.csv
+!*.png
 
 # Ignore specific file types
 Data/*.pkl
