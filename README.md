@@ -1,66 +1,195 @@
-# Birmingham-Council-Purchase-Analysis
+# Birmingham City Council – Purchase Card Transactions Analysis
 
-## Overview
-This repository contains a historical dataset of purchase card transactions for the Birmingham City Council. The dataset provides a comprehensive collection of transactional data, enabling various analytical tasks.
+> **Historical repository.** This repository preserves the original implementation of the project. The source code has intentionally not been refactored or modernized in order to retain the historical context and original development approach.
 
-## Analytical Tasks
-With this dataset, you can perform the following tasks:
+## Project Overview
 
-### Clustering
-- Discovering profiles and identifying patterns in the transactions.
-- Detecting unusual transactions (anomaly detection).
+A Python data-analysis project built around the **Birmingham City Council purchase card (P-card) transactions** open dataset. It:
 
-### Forecasting
-- Predicting future transactional behaviors.
-- Forecasting expenditures and determining the next likely purchases.
+1. **Extracts** every published monthly transaction file from the Birmingham City Observatory open-data portal (CKAN DataStore API),
+2. **Consolidates and de-duplicates** them into a single dataset (~300k transactions, May 2014 – July 2024),
+3. **Cleans, transforms, encodes and normalizes** the data in successive stages, and
+4. **Explores** each stage with automated EDA charts (AutoViz),
 
+as groundwork for the analytical goals stated in the original README: **clustering / anomaly detection** and **forecasting** of council spending. Those modeling stages were started but not completed (see [Project Status](#project-status)).
 
+## Project Context
 
-## Getting Started
+| Item | Value | Evidence level |
+|---|---|---|
+| Project origin | **Personal Project** (self-directed data-analysis / portfolio exploration) | Inferred – no course, university or assignment references exist anywhere in the repository; the original README invites external contributions |
+| Author | Baruch Lopez | Confirmed (git history) |
+| Development period | 28 Jul 2024 – 5 Aug 2024 | Confirmed (git history) |
+| Environment | Windows, Anaconda, Python 3.9.19, Jupyter kernel named `pct` | Confirmed (notebook metadata, stored outputs, original README) |
+| Data source | Birmingham City Council, Open Government Licence v2 | Confirmed (`docs/original/data_compliance.txt`) |
 
-### Prerequisites
-Ensure you have the following installed:
-- [Anaconda](https://www.anaconda.com/products/distribution)
-- Python 3.9
+More detail in [`docs/project-context.md`](docs/project-context.md).
 
-### Setting Up the Environment
+## Problem Statement
 
-1. **Create a Conda Environment**:
-    ```bash
-    conda create -n pct python=3.9
-    conda activate pct
-    ```
+Birmingham City Council publishes its purchase-card spending as dozens of separate monthly files with inconsistent schemas (63 distinct columns across all files, several of them spelling variants of the same field). The project set out to turn that fragmented public data into a single analysis-ready dataset and use it to understand spending patterns, spot unusual transactions and anticipate future expenditure.
 
-2. **Install Jupyter and Dependencies**:
-    ```bash
-    conda install jupyter
-    conda install ipykernel
-    pip install pandas
-    ```
+## Objective
 
-3. **Create a Jupyter Kernel**:
-    ```bash
-    python -m ipykernel install --user --name pct --display-name "Purchasing Card Transactions"
-    ```
+Per the original README (confirmed):
 
-4. **Installing the Requirements**:
-Install the required packages listed in `requirements.txt`:
+- **Clustering** – discover transaction profiles and patterns; detect unusual transactions (anomaly detection).
+- **Forecasting** – predict future transactional behavior and expenditure.
 
-### Execution
+## Repository Structure
 
-1. **Run the main.py file:**
-In the repo folder and terminal after installing prerequisites run:
-    ```bash
-    python main.py
-    ```
+```
+.
+├── README.md                     # This file (added during the reorganization)
+├── AGENTS.md                     # Working rules for contributors and AI coding agents
+├── LICENSE                       # Original license file (Apache-2.0 text, see note below)
+├── requirements.txt              # Original dependency list (unchanged)
+├── .gitignore                    # Original ignore rules (unchanged)
+│
+├── main.py                       # Original pipeline entry point
+├── data_extraction.py            # Original scraping + API download module
+├── EDA_and_Tranformations.py     # Original cleaning / transformation / EDA script
+│
+├── Notebooks/                    # Original Jupyter notebooks
+│   ├── Playground.ipynb          #   prototyping of the extraction logic
+│   ├── EDA_and_Tranformations.ipynb  # EDA + transformations (source of the .py script)
+│   ├── TimeSeries.ipynb          #   forecasting experiments (ARIMA / SARIMA / Prophet)
+│   └── Anomalies.ipynb           #   empty placeholder for anomaly detection
+│
+├── Data/                         # Pipeline inputs/outputs (CSV), generated by the code
+├── EDA/                          # AutoViz chart outputs, one folder per dataset stage
+├── Encoders/                     # Fitted LabelEncoders (pickle) produced by the pipeline
+│
+└── docs/                         # Documentation added during the reorganization
+    ├── project-context.md
+    ├── architecture.md
+    ├── code-overview.md
+    ├── data-dictionary.md
+    ├── eda-outputs.md
+    ├── data-compliance.md
+    ├── possible-improvements.md
+    ├── sdlc/                     # Intent / spec / plan reconstructed from the existing project
+    │   ├── intent.md
+    │   ├── spec.md
+    │   └── plan.md
+    └── original/                 # Original documentation files, preserved verbatim
+        ├── README.original.md
+        └── data_compliance.txt
+```
 
+**Why the scripts stay at the repository root:** the original code uses hard-coded paths relative to the working directory (`Data/…`, `EDA/…`, `Encoders/…`, `EDA_and_Tranformations.py`). Moving the scripts or renaming these folders would break the original implementation, so they were deliberately left where they are. The only relocation of code was `TimeSeries.ipynb` → `Notebooks/`, which follows the author's own convention (the other notebooks were moved there in the original history) and uses the same root-relative paths.
 
-## Contributions
-Contributions are welcome! Please submit a pull request or open an issue to discuss your ideas or improvements.
+## Original Implementation
+
+The source code (`*.py`, `*.ipynb`) represents the original implementation developed as a personal project. It has **not** been modified in any way: no fixes, formatting, renames or dependency updates. Known issues and ideas are documented separately in [`docs/possible-improvements.md`](docs/possible-improvements.md) and were intentionally **not** applied.
+
+## Technologies
+
+Confirmed from imports, `requirements.txt` and notebook metadata:
+
+| Area | Tools |
+|---|---|
+| Language | Python 3.9 |
+| Environment | Anaconda, Jupyter Notebook |
+| Data acquisition | `requests`, `beautifulsoup4` (HTML scraping), CKAN DataStore API |
+| Data processing | `pandas`, `numpy` |
+| Preprocessing | `scikit-learn` (`LabelEncoder`), `pickle` |
+| Visualization / EDA | `matplotlib`, `seaborn`, `autoviz` |
+| Forecasting (experimental, notebook only) | `statsmodels` (ARIMA, SARIMAX), `pmdarima` (`auto_arima`), `prophet` |
+
+`statsmodels`, `pmdarima` and `prophet` are imported in `Notebooks/TimeSeries.ipynb` but are **not** listed in `requirements.txt`.
+
+## How It Works
+
+```
+open-data portal ──scrape──► resource IDs ──API──► data.csv / data.pkl (+ duplicates.csv)
+                                                        │
+                       EDA_and_Tranformations.py ◄──────┘
+                                │
+       ┌────────────────────────┼─────────────────────────────┐
+       ▼                        ▼                             ▼
+ data_clean.csv     data_clean_treated.csv     data_clean_treated_normalized.csv
+ (filtered, typed)  (imputed, winsorized,      (z-score on ORIGINAL GROSS AMT)
+                     label-encoded)                       │
+                         │                                ▼
+              Encoders/label_encoders.pkl      EDA/<stage>/AutoViz/*.png
+```
+
+1. `main.py` scrapes the dataset page for resource IDs (`Data/resource_ids.txt`).
+2. Each resource is downloaded from the DataStore API, concatenated and de-duplicated.
+3. `main.py` then runs `EDA_and_Tranformations.py`, which removes incomplete rows/columns, drops redundant columns, fixes types, masks card numbers to the last 4 digits, imputes, caps outliers at the 1st/99th percentile, label-encodes categoricals and normalizes the amount.
+4. AutoViz charts are generated for the normalized dataset (the calls for the earlier stages are commented out in the script, but their charts from notebook runs are kept in `EDA/`).
+
+Full details: [`docs/architecture.md`](docs/architecture.md) and [`docs/code-overview.md`](docs/code-overview.md).
+
+## Inputs and Outputs
+
+| Kind | Path | Produced by |
+|---|---|---|
+| Input (remote) | `https://birmingham-city-observatory.datopian.com/dataset/purchase-card-transactions` | – |
+| Output | `Data/resource_ids.txt` (122 IDs) | `data_extraction.scrape_resource_ids` |
+| Output | `Data/data.csv` (300,412 rows × 63 cols), `Data/data.pkl`* | `data_extraction.fetch_and_save_data` |
+| Output | `Data/duplicates.csv` | `data_extraction.fetch_and_save_data` |
+| Output | `Data/data_clean.csv` (295,002 × 19), `Data/data_celan.pkl`* | `EDA_and_Tranformations.py` |
+| Output | `Data/data_clean_treated.csv` (295,002 × 18) | `EDA_and_Tranformations.py` |
+| Output | `Data/data_clean_treated_normalized.csv` (295,002 × 18) | `EDA_and_Tranformations.py` |
+| Output | `Encoders/label_encoders.pkl` | `EDA_and_Tranformations.py` |
+| Output | `EDA/<stage>/AutoViz/*.png` | AutoViz |
+
+\* Pickle files under `Data/` are excluded by `.gitignore` and are therefore not in the repository. Column-level details: [`docs/data-dictionary.md`](docs/data-dictionary.md).
+
+## Running the Project
+
+Based on the original README (`docs/original/README.original.md`). Versions are those recorded at the time; reproducibility today is **not guaranteed**.
+
+```bash
+conda create -n pct python=3.9
+conda activate pct
+conda install jupyter ipykernel
+python -m ipykernel install --user --name pct --display-name "Purchasing Card Transactions"
+pip install -r requirements.txt
+
+# run from the repository root (paths are relative to the working directory)
+python main.py
+```
+
+Notes:
+
+- `main.py` downloads the full dataset from the portal; it requires network access and that the portal/API still exist (**Unknown** whether the `datopian.com` endpoint is still online).
+- The notebooks also expect the repository root as the working directory (e.g. `jupyter notebook` launched from the root, or adjust the kernel's working directory).
+- `TimeSeries.ipynb` additionally needs `statsmodels`, `pmdarima` and `prophet`; its modeling cell failed in the original run with a NumPy binary-incompatibility error.
+
+## Project Status
+
+| Stage | Status |
+|---|---|
+| Data extraction | Implemented |
+| Cleaning, transformation, encoding, normalization | Implemented |
+| Automated EDA | Implemented |
+| Forecasting (time series) | Started – exploratory notebook, modeling cell never completed successfully |
+| Clustering / anomaly detection | Not started – `Anomalies.ipynb` is empty; `main.py` has an empty `MODEL TRAINING` section |
+
+## Documentation
+
+- [Project context](docs/project-context.md)
+- [Architecture / data pipeline](docs/architecture.md)
+- [Code overview](docs/code-overview.md)
+- [Data dictionary](docs/data-dictionary.md)
+- [EDA outputs](docs/eda-outputs.md)
+- [Data licence & compliance](docs/data-compliance.md)
+- [Possible improvements (not applied)](docs/possible-improvements.md)
+- SDLC artifacts reconstructed from the existing project: [intent](docs/sdlc/intent.md) · [spec](docs/sdlc/spec.md) · [plan](docs/sdlc/plan.md)
+- Original files: [README](docs/original/README.original.md) · [data compliance](docs/original/data_compliance.txt)
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+
+- **Code:** the `LICENSE` file contains the **Apache License 2.0**, while the original README states *MIT License*. This contradiction exists in the original repository; it is documented here rather than resolved. The `LICENSE` file is the authoritative license text in the repository.
+- **Data:** © Birmingham City Council, published under the [Open Government Licence v2](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/). See [`docs/data-compliance.md`](docs/data-compliance.md).
 
 ## Acknowledgments
-Data provided by Birmingham City Council under the Open Government Licence v2.  
-[Dataset Source](https://www.cityobservatory.birmingham.gov.uk/@birmingham-city-council/purchase-card-transactions)
+
+Data provided by Birmingham City Council under the Open Government Licence v2 – [dataset source](https://www.cityobservatory.birmingham.gov.uk/@birmingham-city-council/purchase-card-transactions).
+
+## Historical Note
+
+This repository was later reorganized and documented to improve readability and preserve the historical context of the original project. The original source code remains unchanged.
